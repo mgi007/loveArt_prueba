@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="viewModel"
+            type="miguel.insua.loveArt.modules.movie.movieImages.MovieImagesViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context="miguel.insua.loveArt.modules.example.MovieImagesFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical"
+                    tools:context="miguel.insua.loveArt.modules.movie.MovieFragment">
+
+
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        style="@style/Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:src="@drawable/ic_back"
+                        android:onClick="@{() -> viewModel.back.invoke()}"
+                        android:layout_marginBottom="@dimen/space_medium"/>
+
+                    <TextView
+                        android:id="@+id/backdrops_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="@string/backdrops_tittle"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_movie_backdrops"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        tools:listitem="@layout/movie_image_item"
+                        tools:ignore="MissingConstraints"
+                        android:layout_marginStart="@dimen/space_medium"
+                        android:layout_marginEnd="@dimen/space_big"/>
+
+                    <TextView
+                        android:id="@+id/posters_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="@string/posters_tittle"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_movie_posters"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        tools:listitem="@layout/movie_image_item"
+                        tools:ignore="MissingConstraints"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"/>
+
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

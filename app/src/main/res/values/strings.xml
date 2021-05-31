@@ -1,0 +1,76 @@
+<resources>
+
+    <string name="prefs_file" translatable="false">miguel.insua.loveArt.PREFERENCE_FILE_KEY</string>
+
+    <string name="app_name">Love Art</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up!</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="google">Google</string>
+    <string name="login_with">Access with</string>
+    <string name="or_with_email">Register with email</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="register_with">Register with</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="i_accept_the_use_terms">I accept the use terms</string>
+    <string name="learn_more">Learn more</string>
+    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="login_error_message">Invalid e-mail or password</string>
+    <string name="invalid_password">Invalid Password</string>
+    <string name="match_password">Password doesn´t match</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_info"><![CDATA[> 6 characters, one capital letter and one number.]]></string>
+    <string name="complete_data">Complete Data</string>
+    <string name="gender">Gender</string>
+    <string name="female">Female</string>
+    <string name="male">male</string>
+    <string name="other">other</string>
+    <string name="birthday">Birthday</string>
+    <string name="error_age">Only more than 14 years old</string>
+    <string name="add_later">Add later</string>
+    <string name="finish_register">You can finish your register!</string>
+    <string name="data_invalid_error">You may complete all the form, your age and your gender</string>
+    <string name="uses_terms_error">May accept uses terms</string>
+    <string name="acces_with_email">Acces with your email</string>
+    <string name="sign_in_with_email">Sign in with your email</string>
+    <string name="sign_in">Sign in</string>
+    <string name="start">Sign in</string>
+    <string name="log_out">Log out</string>
+    <string name="my_lists">My lists</string>
+    <string name="go_to_home">Home</string>
+    <string name="new_list">New list</string>
+    <string name="input_list_name">List name</string>
+    <string name="create_list">Create</string>
+    <string name="search_movies">Search movies, series or TV shows</string>
+    <string name="release_date">Release date: </string>
+    <string name="original_language">Original language: </string>
+    <string name="vote_count">Rating number: </string>
+    <string name="error_loading_popular">Error loading movies</string>
+    <string name="home">Home</string>
+    <string name="movie_genres_tittle">Genres:</string>
+    <string name="movie_languages_tittle">Languages:</string>
+    <string name="movie_status_tittle">Status now:</string>
+    <string name="movie_tagline_tittle">Tagline:</string>
+    <string name="movie_vote_count_tittle">Number of votes:</string>
+    <string name="rating">Rating:</string>
+    <string name="backdrops_tittle">Backdrops:</string>
+    <string name="posters_tittle">Posters:</string>
+    <string name="overview">Overview:</string>
+    <string name="recommendations">Recommendation movies</string>
+    <string name="similar_movies">Similar movies</string>
+
+
+    <string-array name="select_movie_query">
+        <item>Popular</item>
+        <item>Now playing</item>
+        <item>Top rated</item>
+        <item>Upcomming</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

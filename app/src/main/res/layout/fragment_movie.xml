@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="miguel.insua.loveArt.modules.movie.MovieViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context="miguel.insua.loveArt.modules.movie.MovieFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical"
+                    tools:context="miguel.insua.loveArt.modules.movie.MovieFragment">
+
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        style="@style/Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:src="@drawable/ic_back"
+                        android:onClick="@{() -> viewModel.back.invoke()}"/>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/space_big">
+
+                        <ImageView
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:id="@+id/movie_fragment_image" />
+
+                        <TextView
+                            android:id="@+id/movie_tittle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="30dp"
+                            android:layout_marginTop="@dimen/space_big"
+                            android:layout_marginStart="@dimen/space_big"
+                            android:layout_marginEnd="@dimen/space_big"
+                            android:textColor="@color/colorAccent"
+                            android:fontFamily="@font/roboto_black" />
+
+                    </LinearLayout>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_genres_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/movie_genres_tittle"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_movie_genres"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/movie_genre"
+                        android:layout_marginTop="@dimen/space_small"
+                        tools:ignore="MissingConstraints"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"/>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_date_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/release_date"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <TextView
+                        android:id="@+id/movie_release_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"
+                        android:textColor="@color/colorAccent"/>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_overview_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/overview"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <TextView
+                        android:id="@+id/movie_overview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"
+                        android:textColor="@color/colorAccent"/>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_languages_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/movie_languages_tittle"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_movie_languages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/movie_genre"
+                        android:layout_marginTop="@dimen/space_small"
+                        tools:ignore="MissingConstraints"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"/>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_status_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/movie_status_tittle"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <TextView
+                        android:id="@+id/movie_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"
+                        android:textColor="@color/colorAccent"/>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_tagline_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/movie_tagline_tittle"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <TextView
+                        android:id="@+id/movie_tagline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:fontFamily="@font/roboto_black"
+                        android:textColor="@color/colorAccent"/>
+
+
+
+                    <TextView
+                        android:id="@+id/movie_rating_tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25dp"
+                        android:text="@string/rating"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:fontFamily="@font/roboto_black"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/movie_vote_count_tittle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:text="@string/movie_vote_count_tittle"
+                            android:layout_marginTop="@dimen/space_small"
+                            android:layout_marginStart="@dimen/space_big"
+                            android:layout_marginEnd="@dimen/space_big"
+                            android:fontFamily="@font/roboto_black"/>
+
+                        <TextView
+                            android:id="@+id/movie_vote_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:layout_marginTop="@dimen/space_small"
+                            android:layout_marginStart="@dimen/space_big"
+                            android:layout_marginEnd="@dimen/space_big"
+                            android:fontFamily="@font/roboto_black"
+                            android:textColor="@color/colorAccent"/>
+
+
+                    </LinearLayout>
+
+                    <RatingBar
+                        android:id="@+id/movie_rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_medium_big"
+                        style="@style/media_rating"
+                        android:stepSize="0.1"/>
+
+
+
+                    <Button
+                        android:id="@+id/movie_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_marginStart="@dimen/space_biggest"
+                        android:layout_marginEnd="@dimen/space_biggest"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:layout_marginBottom="@dimen/space_big"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:onClick="@{() -> viewModel.request.invoke()}"
+                        android:text="Show images"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:background="@color/colorAccent">
+
+                        <Button
+                            android:id="@+id/recommendation_movies"
+                            android:layout_width="@dimen/space_biggest_division"
+                            android:layout_height="match_parent"
+                            android:text="@string/recommendations"
+                            android:onClick="@{() -> viewModel.recommendationMovies.invoke()}"/>
+
+                        <Button
+                            android:id="@+id/similar_movies"
+                            android:layout_width="@dimen/space_biggest_division"
+                            android:layout_height="match_parent"
+                            android:text="@string/similar_movies"
+                            android:layout_marginStart="@dimen/space_small"
+                            android:onClick="@{() -> viewModel.similarMovies.invoke()}"/>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/fragmentContainerMovie"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="viewModel"
+            type="miguel.insua.loveArt.modules.start.StartViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context="miguel.insua.loveArt.modules.start.StartFragment">
+
+
+
+        <LinearLayout
+            android:id="@+id/midTableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/tvLoginWithEmailHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_biggest"
+                android:layout_marginBottom="@dimen/space_biggest"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/start"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/topLinearLayout"
+                android:layout_marginBottom="@dimen/space_big"
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_medium"
+                android:layout_centerHorizontal="true"
+                android:text="@string/acces_with_email"
+                android:textColor="@color/colorBlack"
+                android:onClick="@{() -> viewModel.logIn.invoke()}"/>
+
+            <Button
+                android:id="@+id/buttonEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_big"
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_medium"
+                android:text="@string/sign_in_with_email"
+                android:textColor="@color/colorBlack"
+                android:onClick="@{() -> viewModel.email.invoke()}"/>
+
+        </LinearLayout>
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

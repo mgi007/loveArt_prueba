@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="miguel.insua.loveArt.modules.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context="miguel.insua.loveArt.modules.login.LoginFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="beforeDescendants"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical"
+                    tools:context="miguel.insua.loveArt.modules.login.LoginFragment">
+
+                    <ImageView
+                        android:id="@+id/ivBack"
+                        style="@style/Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_big"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:src="@drawable/ic_back"
+                        android:onClick="@{() -> viewModel.back.invoke()}"/>
+
+                    <TextView
+                        android:id="@+id/tvLoginWithEmailHeading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="@string/acces_with_email"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorGrey"
+                        android:textSize="20sp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmail"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_medium"
+                        android:layout_marginTop="@dimen/space_biggest"
+                        android:layout_marginEnd="@dimen/space_medium"
+                        android:theme="@style/TextInputLayoutAppearance"
+                        app:hintTextAppearance="@style/TextLabel">
+
+                        <EditText
+                            android:id="@+id/etEmail"
+                            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/email"
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1"
+                            android:nextFocusDown="@+id/etPassword"
+                            android:textColor="@color/colorGrey"
+                            android:theme="@style/EditTextAppearance" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPassword"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_medium"
+                        android:layout_marginTop="@dimen/space_big"
+                        android:layout_marginEnd="@dimen/space_medium"
+                        android:theme="@style/TextInputLayoutAppearance"
+                        app:hintTextAppearance="@style/TextLabel"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/colorGrey">
+
+                        <EditText
+                            android:id="@+id/etPassword"
+                            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/password"
+                            android:inputType="textPassword"
+                            android:maxLines="1"
+                            android:nextFocusDown="@+id/btnEmailLogin"
+                            android:textColor="@color/colorGrey"
+                            android:theme="@style/EditTextAppearance" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvForgotPassword"
+                        style="@style/Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_medium"
+                        android:layout_marginTop="@dimen/space_small"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/i_forgot_my_password"
+                        android:textColor="@color/colorGrey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_bigger"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_medium"
+                            android:layout_marginEnd="@dimen/space_medium"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="@string/login"
+                            android:onClick="@{() -> viewModel.logIn.invoke()}"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

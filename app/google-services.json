@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "391830899031",
+    "project_id": "discoverart-c5934",
+    "storage_bucket": "discoverart-c5934.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391830899031:android:88c4ad11a6986076eb1612",
+        "android_client_info": {
+          "package_name": "miguel.insua.loveArt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391830899031-k1msi5d5l1sdb37chhfa9kbc5nn87bnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDntIm9r6FqVkInu8w7ZnOj8CSmusN5qWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391830899031-k1msi5d5l1sdb37chhfa9kbc5nn87bnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
