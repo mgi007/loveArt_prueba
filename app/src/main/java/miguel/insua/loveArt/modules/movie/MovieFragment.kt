@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlinx.android.synthetic.main.fragment_movie_pager.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +25,7 @@ import miguel.insua.loveArt.modules.movie.movieImages.MovieImagesFragment
 import miguel.insua.loveArt.modules.movie.moviePager.MoviePagerFragment
 import miguel.insua.loveArt.modules.movie.moviePager.MoviePagerViewModel
 import miguel.insua.loveArt.modules.movie.selectListToAdd.SelectListToAddFragment
+import miguel.insua.loveArt.modules.utils.setVisible
 import retrofit2.Response
 
 
@@ -39,6 +42,10 @@ class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<Mo
 
     var movieImages: MovieImages? = null
 
+    var numMoviesPage: Int = 1
+
+    var queryExtendedFragment: String = "recommendations"
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,7 +54,7 @@ class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<Mo
             viewModel.uid = requireArguments().getString("uid")!!
             addMoviesExtraFragment()
         }
-        viewRecommendationMovies()
+        viewSimilarMovies()
     }
 
     override fun getLayoutRes(): Int {
@@ -102,13 +109,17 @@ class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<Mo
     private fun viewSimilarMovies() {
         recommendation_movies.isEnabled = true
         similar_movies.isEnabled = false
-        getMovies(viewModel.media.id.toString(),"similar", 1)
+        queryExtendedFragment = "similar"
+        numMoviesPage = 1
+        getMovies(viewModel.media.id.toString(), numMoviesPage, true)
     }
 
     private fun viewRecommendationMovies() {
         recommendation_movies.isEnabled = false
         similar_movies.isEnabled = true
-        getMovies(viewModel.media.id.toString(),"recommendations", 1)
+        queryExtendedFragment = "recommendations"
+        numMoviesPage = 1
+        getMovies(viewModel.media.id.toString(), numMoviesPage, true)
     }
 
     private fun initMovieGenreAdapter() {
@@ -148,8 +159,8 @@ class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<Mo
         }
     }
 
-    private fun getMovies(id: String, query: String, numPage: Int) {
-        val completeQuery: String = "$id/$query?api_key=5451f06f86322e090841b4c2ebab2b7d&page=$numPage"
+    private fun getMovies(id: String, numPage: Int, queryChanges: Boolean) {
+        val completeQuery: String = "$id/$queryExtendedFragment?api_key=5451f06f86322e090841b4c2ebab2b7d&page=$numPage"
         CoroutineScope(Dispatchers.IO).launch {
             val call: Response<MediaResponse> =
                 TMDbApiManager().getRetrofit().create(TMDbService::class.java).getMovies("$completeQuery")
@@ -158,10 +169,19 @@ class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<Mo
                 if (call.isSuccessful) {
                     // Show in RecyclerView
                     val movies: List<Media>? = mediaResponse?.results
-                    pagerFragment.viewModel.refreshData(movies!!)
+                    pagerFragment.viewModel.refreshData(movies!!, queryChanges)
+
+                    if (!queryChanges) {
+                        movie_extended_progress_bar.setVisible(false)
+                    }
+
+                    if (queryChanges && movie_extended_progress_bar != null) {
+                        movie_extended_progress_bar.setVisible(false)
+                    }
 
                 } else {
                     showToast(R.string.error_loading_popular.toString())
+                    movie_extended_progress_bar.setVisible(false)
                 }
             })
         }
@@ -219,5 +239,11 @@ class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<Mo
                 container = R.id.fragmentContainerHome
             )
         }
+    }
+
+    override fun getExtendedPage() {
+        movie_extended_progress_bar.setVisible(true)
+        numMoviesPage++
+        getMovies(viewModel.media.id.toString(), numMoviesPage, false)
     }
 }

@@ -24,6 +24,7 @@ class HomeAdapter(private val context: Context,
 
     interface ItemOnClickListener {
         fun onItemClick(media: Media)
+        fun getPage()
     }
 
     fun setListData(data: MutableList<Media>) {
@@ -44,6 +45,7 @@ class HomeAdapter(private val context: Context,
             itemView.setOnClickListener {
                 itemClickListener.onItemClick(media)
             }
+
         }
     }
 
@@ -55,6 +57,9 @@ class HomeAdapter(private val context: Context,
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val media: Media = dataList[position]
         holder.bindView(media)
+        if (position == dataList.size - 1) {
+            itemClickListener.getPage()
+        }
     }
 
     override fun getItemCount(): Int {

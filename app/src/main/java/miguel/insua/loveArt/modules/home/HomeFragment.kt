@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -21,6 +20,7 @@ import miguel.insua.loveArt.model.Media
 import miguel.insua.loveArt.model.MediaResponse
 import miguel.insua.loveArt.modules.base.BaseFragment
 import miguel.insua.loveArt.modules.movie.MovieFragment
+import miguel.insua.loveArt.modules.utils.setVisible
 import retrofit2.Response
 
 class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel, FragmentHomeBinding>(
@@ -29,9 +29,10 @@ class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel
 
     lateinit var uid: String
 
+    private var numPage: Int = 1
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        getMovies("popular", 1)
 
         if (arguments != null) {
             uid = requireArguments().getString("uid")!!
@@ -61,7 +62,7 @@ class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel
                     position: Int,
                     id: Long
                 ) {
-                    selectMovieQuery(spinnerList[position], 1)
+                    selectMovieQuery(spinnerList[position])
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -82,8 +83,19 @@ class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel
         viewModel.adapter = recycler_view.adapter as HomeAdapter
     }
 
-    private fun getMovies(query: String, numPage: Int) {
-        val completeQuery: String = "$query?api_key=5451f06f86322e090841b4c2ebab2b7d&page=$numPage"
+    override fun getPage() {
+        home_progress_bar.setVisible(true)
+        numPage++
+        getMoviesRequest(numPage, false)
+    }
+
+    private fun getMovies() {
+        numPage = 1
+        getMoviesRequest(numPage, true)
+    }
+
+    private fun getMoviesRequest(pageNumber: Int, queryChanges: Boolean) {
+        val completeQuery: String = "${viewModel.searchOption}?api_key=5451f06f86322e090841b4c2ebab2b7d&page=$pageNumber"
         CoroutineScope(Dispatchers.IO).launch {
             val call: Response<MediaResponse> =
                 TMDbApiManager().getRetrofit().create(TMDbService::class.java).getMovies("$completeQuery")
@@ -92,37 +104,44 @@ class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel
                 if (call.isSuccessful) {
                     // Show in RecyclerView
                     val movies: List<Media>? = mediaResponse?.results
-                    viewModel.list.clear()
+                    if (queryChanges) {
+                        viewModel.list.clear()
+                    } else {
+                        home_progress_bar.setVisible(false)
+                    }
                     if (movies != null) {
                         viewModel.list.addAll(movies)
                     }
                     viewModel.refreshData()
 
 
-
                 } else {
                     showToast(R.string.error_loading_popular.toString())
+                    if (!queryChanges) {
+                        home_progress_bar.setVisible(false)
+                    }
                 }
             })
         }
     }
 
-    private fun selectMovieQuery(searchOption: String, numPage: Int) {
+    private fun selectMovieQuery(searchOption: String) {
         val optionsArray = resources.getStringArray(R.array.select_movie_query)
         when (searchOption) {
             optionsArray[0] -> {
-                getMovies("popular", numPage)
+                viewModel.searchOption = "popular"
             }
             optionsArray[1] -> {
-                getMovies("now_playing", numPage)
+                viewModel.searchOption = "now_playing"
             }
             optionsArray[2] -> {
-                getMovies("top_rated", numPage)
+                viewModel.searchOption = "top_rated"
             }
             optionsArray[3] -> {
-                getMovies("upcoming", numPage)
+                viewModel.searchOption = "top_rated"
             }
         }
+        getMovies()
     }
 
     override fun onItemClick(media: Media) {

@@ -304,19 +304,20 @@
                         android:background="@color/colorAccent">
 
                         <Button
-                            android:id="@+id/recommendation_movies"
-                            android:layout_width="@dimen/space_biggest_division"
-                            android:layout_height="match_parent"
-                            android:text="@string/recommendations"
-                            android:onClick="@{() -> viewModel.recommendationMovies.invoke()}"/>
-
-                        <Button
                             android:id="@+id/similar_movies"
                             android:layout_width="@dimen/space_biggest_division"
                             android:layout_height="match_parent"
                             android:text="@string/similar_movies"
                             android:layout_marginStart="@dimen/space_small"
                             android:onClick="@{() -> viewModel.similarMovies.invoke()}"/>
+
+                        <Button
+                            android:id="@+id/recommendation_movies"
+                            android:layout_width="@dimen/space_biggest_division"
+                            android:layout_height="match_parent"
+                            android:text="@string/recommendations"
+                            android:onClick="@{() -> viewModel.recommendationMovies.invoke()}"/>
+
                     </LinearLayout>
 
                     <FrameLayout

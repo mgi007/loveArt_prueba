@@ -29,6 +29,8 @@ class HomeViewModel(app: Application) : BaseViewModel(app) {
 
     var uid: String? = null
 
+    var searchOption: String = "popular"
+
     lateinit var movie: Movie
 
     fun refreshData() {

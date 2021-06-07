@@ -23,6 +23,7 @@ class MoviePagerFragment(private val itemClickListener: MoviePagerClickListener)
 
     interface MoviePagerClickListener {
         fun onClickItemMoviePager(media: Media)
+        fun getExtendedPage()
     }
 
     override fun getLayoutRes(): Int {
@@ -48,6 +49,10 @@ class MoviePagerFragment(private val itemClickListener: MoviePagerClickListener)
 
     override fun onItemClick(media: Media) {
         itemClickListener.onClickItemMoviePager(media)
+    }
+
+    override fun getPage() {
+        itemClickListener.getExtendedPage()
     }
 
 }
