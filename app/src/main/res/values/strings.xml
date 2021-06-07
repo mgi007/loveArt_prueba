@@ -62,6 +62,10 @@
     <string name="overview">Overview:</string>
     <string name="recommendations">Recommendation movies</string>
     <string name="similar_movies">Similar movies</string>
+    <string name="show_movie_images">Show images</string>
+    <string name="new_list_name">New list name</string>
+    <string name="add_movie_to_list">Add to one of my lists</string>
+
 
 
     <string-array name="select_movie_query">

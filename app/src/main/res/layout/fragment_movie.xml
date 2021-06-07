@@ -278,8 +278,22 @@
                         android:layout_marginBottom="@dimen/space_big"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:onClick="@{() -> viewModel.request.invoke()}"
-                        android:text="Show images"/>
+                        android:onClick="@{() -> viewModel.showMovieImages.invoke()}"
+                        android:text="@string/show_movie_images"/>
+
+                    <Button
+                        android:id="@+id/movie_button_add_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_marginStart="@dimen/space_biggest"
+                        android:layout_marginEnd="@dimen/space_biggest"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:layout_marginBottom="@dimen/space_big"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:onClick="@{() -> viewModel.addMovieToList.invoke()}"
+                        android:text="@string/add_movie_to_list"/>
 
 
                     <LinearLayout

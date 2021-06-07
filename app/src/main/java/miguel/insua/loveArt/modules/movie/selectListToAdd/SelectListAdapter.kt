@@ -1,4 +1,4 @@
-package miguel.insua.loveArt.modules.lists
+package miguel.insua.loveArt.modules.movie.selectListToAdd
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,17 +12,15 @@ import miguel.insua.loveArt.R
 
 
 
-class ListAdapter(
+class SelectListAdapter(
     private val context: Context,
     private val itemClickListener: ListItemOnClickListener
-    ): RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+    ): RecyclerView.Adapter<SelectListAdapter.ListViewHolder>() {
 
     private var dataList = mutableListOf<String>()
 
     interface ListItemOnClickListener {
-        fun onEditClick(nameList: String)
-        fun onDeleteClick(nameList: String)
-        fun onItemClick(nameList: String)
+        fun onItemClick(listName: String)
     }
 
     fun setListData(data: MutableList<String>) {
@@ -33,12 +31,6 @@ class ListAdapter(
 
         fun bindView(list: String) {
             itemView.list_name.text = list
-            itemView.edit_name_list.setOnClickListener {
-                itemClickListener.onEditClick(list)
-            }
-            itemView.delete_list.setOnClickListener {
-                itemClickListener.onDeleteClick(list)
-            }
             itemView.setOnClickListener {
                 itemClickListener.onItemClick(list)
             }
@@ -47,7 +39,7 @@ class ListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.select_list_item, parent, false)
         return ListViewHolder(view)
     }
 

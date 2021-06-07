@@ -29,6 +29,15 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/pruebas_firestore"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/space_bigger"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginTop="@dimen/space_medium"
+                        android:layout_marginBottom="@dimen/space_medium"/>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_lists"
                         android:layout_width="match_parent"

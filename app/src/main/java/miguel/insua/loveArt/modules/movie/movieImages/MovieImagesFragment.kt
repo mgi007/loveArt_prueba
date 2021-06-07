@@ -18,6 +18,7 @@ import miguel.insua.loveArt.model.Media
 import miguel.insua.loveArt.model.MovieImages
 import miguel.insua.loveArt.model.MovieImagesCollection
 import miguel.insua.loveArt.modules.base.BaseFragment
+import miguel.insua.loveArt.modules.home.HomeFragment
 import miguel.insua.loveArt.modules.movie.MovieFragment
 import retrofit2.Response
 
@@ -25,8 +26,6 @@ import retrofit2.Response
 class MovieImagesFragment : BaseFragment<MovieImagesViewModel, FragmentMovieImagesBinding>(
     MovieImagesViewModel::class.java
 ) {
-
-    lateinit var media: Media
 
     var movieImages: MovieImages? = null
 
@@ -37,8 +36,9 @@ class MovieImagesFragment : BaseFragment<MovieImagesViewModel, FragmentMovieImag
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (arguments != null) {
-            media = requireArguments().getParcelable<Media>("media")!!
-            getMovieImages(media.id.toString())
+            viewModel.media = requireArguments().getParcelable<Media>("media")!!
+            getMovieImages(viewModel.media.id.toString())
+            viewModel.uid = requireArguments().getString("uid")!!
         }
     }
 
@@ -55,7 +55,8 @@ class MovieImagesFragment : BaseFragment<MovieImagesViewModel, FragmentMovieImag
 
     private fun back() {
         val bundle: Bundle = Bundle()
-        bundle.putParcelable("media", media)
+        bundle.putParcelable("media", viewModel.media)
+        bundle.putString("uid", viewModel.uid)
         val fragment: MovieFragment = MovieFragment()
         fragment.arguments = bundle
         navigator.navigate(fragment, false, fragment.LOG_TAG, container = R.id.fragmentContainerHome)

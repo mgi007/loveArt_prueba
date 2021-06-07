@@ -55,9 +55,10 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>(
     }
 
     private fun goToHome(uid: String) {
-        val intent = Intent(activity?.applicationContext, HomeActivity::class.java).apply {
-            putExtra("user", uid)
-        }
+        val intent = Intent(activity?.applicationContext, HomeActivity::class.java)
+        val bundle = Bundle()
+        bundle.putString("uid", uid)
+        intent.putExtras(bundle)
         writeAuthOn(uid)
         navigator.navigateToActivity(intent, Bundle())
     }

@@ -5,22 +5,107 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import miguel.insua.loveArt.api.FirebaseMapper
 import miguel.insua.loveArt.application.App
 import miguel.insua.loveArt.model.Media
+import miguel.insua.loveArt.model.User
+import miguel.insua.loveArt.model.UserRegister
 import miguel.insua.loveArt.model.User_List
 import miguel.insua.loveArt.modules.base.BaseViewModel
 import miguel.insua.loveArt.modules.home.HomeAdapter
 
 class ListsViewModel(app: Application) : BaseViewModel(app) {
 
+    var userData: UserRegister = UserRegister()
+
     lateinit var newList: () -> Unit
 
     private val auth = FirebaseAuth.getInstance()
 
-    private val db = FirebaseFirestore.getInstance()
+    val db = FirebaseFirestore.getInstance()
+
+    lateinit var uid: String
+
 
     init {
         (app as? App)?.component?.inject(this)
+    }
+
+
+    fun getUserById(id: String) {
+        val docRef = db.collection("users").document(id)
+        docRef.get()
+
+            .addOnCompleteListener {
+                if (it != null) {
+                    val result = it.result
+                    if (result != null) {
+                        val userRegister = result.toObject(UserRegister::class.java)
+                        if (userRegister != null) {
+                            if (userRegister.email != null) {
+                                userData = userRegister
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+    }
+
+    fun addList(listName: String) {
+        var add: Boolean = true
+        getUserById(uid)
+        for (i in 0 until userData.lists.size) {
+            var name: String = userData.lists[i]
+            if (name == listName) {
+                add = false
+            }
+        }
+        if (add) {
+            userData.lists.add(listName)
+        }
+    }
+
+    fun deleteList(listName: String) {
+        getUserById(uid)
+        userData.lists.remove(listName)
+    }
+
+    fun editListName(oldName: String, newName: String) {
+        getUserById(uid)
+        userData.lists.add(newName)
+        userData.lists.remove(oldName)
+    }
+
+    fun refreshUserLists(id: String, adapter: ListAdapter) {
+        val docRef = db.collection("users").document(id)
+        docRef.get()
+
+            .addOnCompleteListener {
+                if (it != null) {
+                    val result = it.result
+                    if (result != null) {
+                        val userRegister = result.toObject(UserRegister::class.java)
+                        if (userRegister != null) {
+                            if (userRegister.email != null) {
+                                userData = userRegister
+                            }
+
+                            if (userData.lists != null && userData.lists.size > 0) {
+                                adapter.setListData(userData.lists)
+                                adapter.notifyDataSetChanged()
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
     }
 
 
@@ -30,51 +115,6 @@ class ListsViewModel(app: Application) : BaseViewModel(app) {
             userLists.value = lists
         }
         return userLists
-    }
-
-    fun newList(listName: String): Boolean{
-        val user = auth.currentUser
-        var ok = false
-        if (user != null) {
-            db.collection("users").document(user.uid)
-                .collection("lists").document(listName)
-                .set(
-                    hashMapOf(
-                        "name" to listName,
-                    )
-                )
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        ok = true
-                    }
-                }
-        }
-        return ok
-    }
-
-    fun deleteList(listName: String): Boolean {
-        val user = auth.currentUser
-        var ok = false
-        if (user != null) {
-            db.collection("users").document(user.uid)
-                .collection("lists").document(listName)
-                .delete()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        ok = true
-                    }
-                }
-        }
-        return ok
-    }
-
-    fun editListName(oldName: String, newName: String) {
-        val user = auth.currentUser
-        if (user != null) {
-             val oldDocument = db.collection("users").document(user.uid)
-                .collection("lists").document(oldName)
-                .get()
-        }
     }
 
     private fun getUserListData():LiveData<MutableList<String>> {

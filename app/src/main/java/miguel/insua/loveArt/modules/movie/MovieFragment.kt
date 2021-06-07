@@ -17,18 +17,21 @@ import miguel.insua.loveArt.databinding.FragmentMovieBinding
 import miguel.insua.loveArt.model.*
 import miguel.insua.loveArt.modules.base.BaseFragment
 import miguel.insua.loveArt.modules.example.ExampleFragment
+import miguel.insua.loveArt.modules.home.HomeAdapter
 import miguel.insua.loveArt.modules.home.HomeFragment
 import miguel.insua.loveArt.modules.movie.movieImages.MovieImagesFragment
 import miguel.insua.loveArt.modules.movie.moviePager.MoviePagerFragment
+import miguel.insua.loveArt.modules.movie.moviePager.MoviePagerViewModel
+import miguel.insua.loveArt.modules.movie.selectListToAdd.SelectListToAddFragment
 import retrofit2.Response
 
 
 @SuppressLint("ResourceType")
-class MovieFragment: BaseFragment<MovieViewModel, FragmentMovieBinding>(
-    MovieViewModel::class.java,
+class MovieFragment: MoviePagerFragment.MoviePagerClickListener, BaseFragment<MovieViewModel, FragmentMovieBinding>(
+    MovieViewModel::class.java
 ){
 
-    lateinit var media: Media
+    private val pagerFragment = MoviePagerFragment(this)
 
     private lateinit var adapterGenre: MovieGenreAdapter
 
@@ -36,14 +39,13 @@ class MovieFragment: BaseFragment<MovieViewModel, FragmentMovieBinding>(
 
     var movieImages: MovieImages? = null
 
-    private val pagerFragment = MoviePagerFragment()
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (arguments != null) {
-            media = requireArguments().getParcelable<Media>("media")!!
-            getMovieById(media.id.toString())
+            viewModel.media = requireArguments().getParcelable<Media>("media")!!
+            viewModel.uid = requireArguments().getString("uid")!!
+            addMoviesExtraFragment()
         }
         viewRecommendationMovies()
     }
@@ -55,22 +57,44 @@ class MovieFragment: BaseFragment<MovieViewModel, FragmentMovieBinding>(
     override fun viewCreated(view: View?) {
         mBinding.viewModel = viewModel
         viewModel.back = ::back
-        viewModel.request = :: request
+        viewModel.showMovieImages = :: showMovieImages
+        viewModel.addMovieToList = :: addMovieToList
         viewModel.similarMovies = :: viewSimilarMovies
         viewModel.recommendationMovies = :: viewRecommendationMovies
         initMovieGenreAdapter()
         initMovieLanguagesAdapter()
-        navigator.addFragment(pagerFragment, container = R.id.fragmentContainerMovie)
     }
 
     private fun back() {
-        navigator.navigate(HomeFragment(), false, HomeFragment().LOG_TAG, container = R.id.fragmentContainerHome)
+        val bundle: Bundle = Bundle()
+        bundle.putString("uid", viewModel.uid)
+        val fragment = HomeFragment()
+        fragment.arguments = bundle
+        navigator.navigate(fragment, false, fragment.LOG_TAG, container = R.id.fragmentContainerHome)
     }
 
-    private fun request() {
+    private fun addMoviesExtraFragment() {
         val bundle: Bundle = Bundle()
-        bundle.putParcelable("media", media)
+        bundle.putString("uid", viewModel.uid)
+        pagerFragment.arguments = bundle
+        navigator.addFragment(pagerFragment, container = R.id.fragmentContainerMovie)
+        getMovieById(viewModel.media.id.toString())
+    }
+
+    private fun showMovieImages() {
+        val bundle: Bundle = Bundle()
+        bundle.putParcelable("media", viewModel.media)
+        bundle.putString("uid", viewModel.uid)
         val fragment: MovieImagesFragment = MovieImagesFragment()
+        fragment.arguments = bundle
+        navigator.navigate(fragment, false, fragment.LOG_TAG, container = R.id.fragmentContainerHome)
+    }
+
+    private fun addMovieToList() {
+        val bundle: Bundle = Bundle()
+        bundle.putParcelable("media", viewModel.media)
+        bundle.putString("uid", viewModel.uid)
+        val fragment: SelectListToAddFragment = SelectListToAddFragment()
         fragment.arguments = bundle
         navigator.navigate(fragment, false, fragment.LOG_TAG, container = R.id.fragmentContainerHome)
     }
@@ -78,13 +102,13 @@ class MovieFragment: BaseFragment<MovieViewModel, FragmentMovieBinding>(
     private fun viewSimilarMovies() {
         recommendation_movies.isEnabled = true
         similar_movies.isEnabled = false
-        getMovies(media.id.toString(),"similar", 1)
+        getMovies(viewModel.media.id.toString(),"similar", 1)
     }
 
     private fun viewRecommendationMovies() {
         recommendation_movies.isEnabled = false
         similar_movies.isEnabled = true
-        getMovies(media.id.toString(),"recommendations", 1)
+        getMovies(viewModel.media.id.toString(),"recommendations", 1)
     }
 
     private fun initMovieGenreAdapter() {
@@ -96,7 +120,7 @@ class MovieFragment: BaseFragment<MovieViewModel, FragmentMovieBinding>(
     }
 
     private fun initMovieLanguagesAdapter() {
-        val layoutManager = GridLayoutManager(context, 4)
+        val layoutManager = GridLayoutManager(context, 3)
         recycler_view_movie_languages.layoutManager = layoutManager
         val appContext = requireContext().applicationContext
         adapterLanguages = MovieLanguagesAdapter(appContext)
@@ -178,6 +202,22 @@ class MovieFragment: BaseFragment<MovieViewModel, FragmentMovieBinding>(
             languagesList.addAll(languages)
             adapterLanguages.setListData(languagesList)
             adapterLanguages.notifyDataSetChanged()
+        }
+    }
+
+    override fun onClickItemMoviePager(media: Media) {
+        if (viewModel.uid != null) {
+            val bundle: Bundle = Bundle()
+            bundle.putParcelable("media", media)
+            bundle.putString("uid", viewModel.uid)
+            val fragment: MovieFragment = MovieFragment()
+            fragment.arguments = bundle
+            navigator.navigate(
+                fragment,
+                false,
+                fragment.LOG_TAG,
+                container = R.id.fragmentContainerHome
+            )
         }
     }
 }

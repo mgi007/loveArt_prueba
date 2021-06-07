@@ -16,13 +16,19 @@ class MovieViewModel(app: Application) : BaseViewModel(app) {
 
     lateinit var back: () -> Unit
 
-    lateinit var request: () -> Unit
+    lateinit var showMovieImages: () -> Unit
+
+    lateinit var addMovieToList: () -> Unit
 
     lateinit var recommendationMovies: () -> Unit
 
     lateinit var similarMovies: () -> Unit
 
     var movie: Movie? = null
+
+    lateinit var media: Media
+
+    lateinit var uid: String
 
 
     init {

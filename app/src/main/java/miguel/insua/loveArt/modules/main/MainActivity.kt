@@ -26,9 +26,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(
         if (uid == null) {
             navigator.addFragment(StartFragment(), container = R.id.fragmentContainerMain)
         } else {
-            val intent = Intent(this, HomeActivity::class.java).apply {
-                putExtra("user", uid)
-            }
+            val intent = Intent(this, HomeActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("uid", uid)
+            intent.putExtras(bundle)
             navigator.navigateToActivity(intent, Bundle())
         }
     }

@@ -12,8 +12,6 @@ class MoviePagerViewModel(app: Application) : BaseViewModel(app) {
 
     lateinit var adapter: HomeAdapter
 
-    lateinit var movie: Movie
-
     fun refreshData(listMedia: List<Media>) {
         val list: MutableList<Media> = mutableListOf<Media>()
         if (!listMedia.isNullOrEmpty()) {

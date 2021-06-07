@@ -17,9 +17,13 @@ import miguel.insua.loveArt.modules.home.HomeAdapter
 import miguel.insua.loveArt.modules.movie.MovieFragment
 
 
-class MoviePagerFragment : HomeAdapter.ItemOnClickListener, BaseFragment<MoviePagerViewModel, FragmentMoviePagerBinding>(
+class MoviePagerFragment(private val itemClickListener: MoviePagerClickListener) : HomeAdapter.ItemOnClickListener, BaseFragment<MoviePagerViewModel, FragmentMoviePagerBinding>(
     MoviePagerViewModel::class.java
 ) {
+
+    interface MoviePagerClickListener {
+        fun onClickItemMoviePager(media: Media)
+    }
 
     override fun getLayoutRes(): Int {
         return R.layout.fragment_movie_pager
@@ -43,11 +47,7 @@ class MoviePagerFragment : HomeAdapter.ItemOnClickListener, BaseFragment<MoviePa
     }
 
     override fun onItemClick(media: Media) {
-        val bundle: Bundle = Bundle()
-        bundle.putParcelable("media", media)
-        val fragment: MovieFragment = MovieFragment()
-        fragment.arguments = bundle
-        navigator.navigate(fragment, false, fragment.LOG_TAG, container = R.id.fragmentContainerHome)
+        itemClickListener.onClickItemMoviePager(media)
     }
 
 }

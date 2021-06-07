@@ -59,6 +59,9 @@
     <string name="overview">Sinopsis:</string>
     <string name="recommendations">Películas recomendadas</string>
     <string name="similar_movies">Películas similares</string>
+    <string name="show_movie_images">Ver imágenes</string>
+    <string name="new_list_name">Nuevo nombre de la lista</string>
+    <string name="add_movie_to_list">Añadir a una de mis listas</string>
 
 
     <string-array name="select_movie_query">

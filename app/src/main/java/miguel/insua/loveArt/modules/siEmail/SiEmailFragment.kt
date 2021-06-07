@@ -14,7 +14,11 @@ import kotlinx.android.synthetic.main.fragment_login.etPassword
 import kotlinx.android.synthetic.main.fragment_si_email.*
 import miguel.insua.loveArt.R
 import miguel.insua.loveArt.api.FirebaseApiManager
+import miguel.insua.loveArt.api.FirebaseMapper
 import miguel.insua.loveArt.databinding.FragmentSiEmailBinding
+import miguel.insua.loveArt.model.Media
+import miguel.insua.loveArt.model.User
+import miguel.insua.loveArt.model.UserRegister
 import miguel.insua.loveArt.modules.base.BaseFragment
 import miguel.insua.loveArt.modules.home.HomeActivity
 import miguel.insua.loveArt.modules.start.StartFragment
@@ -99,16 +103,22 @@ class SiEmailFragment : BaseFragment<SiEmailViewModel, FragmentSiEmailBinding>(
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val user = auth.currentUser
+                        val userAuth = auth.currentUser
+                        val user: UserRegister = UserRegister(uid = userAuth?.uid!!, email = userAuth.email, lists = arrayListOf<String>())
                         val db = FirebaseFirestore.getInstance()
-                        if (user != null) {
-                            db.collection("users").document(user.uid).set(
-                                hashMapOf(
-                                    "id" to user.uid,
-                                    "email" to user.email
-                                )
-                            )
-                            goToHome(user.uid)
+                        if (userAuth != null) {
+                            db.collection("users").document(userAuth.uid)
+                                .set(FirebaseMapper.registerRequestMapper(user))
+                                .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    goToHome(userAuth.uid)
+                                } else {
+                                    showRegisterError()
+                                }
+                            }
+                                .addOnFailureListener {
+                                    showRegisterError()
+                                }
                         } else {
                             showRegisterError()
                         }
@@ -123,9 +133,10 @@ class SiEmailFragment : BaseFragment<SiEmailViewModel, FragmentSiEmailBinding>(
     }
 
     private fun goToHome(uid: String) {
-        val intent = Intent(activity?.applicationContext, HomeActivity::class.java).apply {
-            putExtra("user", uid)
-        }
+        val intent = Intent(activity?.applicationContext, HomeActivity::class.java)
+        val bundle = Bundle()
+        bundle.putString("uid", uid)
+        intent.putExtras(bundle)
         writeAuthOn(uid)
         navigator.navigateToActivity(intent, Bundle())
     }

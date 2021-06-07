@@ -23,14 +23,20 @@ import miguel.insua.loveArt.modules.base.BaseFragment
 import miguel.insua.loveArt.modules.movie.MovieFragment
 import retrofit2.Response
 
-
 class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel, FragmentHomeBinding>(
     HomeViewModel::class.java
 ) {
 
+    lateinit var uid: String
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getMovies("popular", 1)
+
+        if (arguments != null) {
+            uid = requireArguments().getString("uid")!!
+        }
+
     }
 
     override fun getLayoutRes(): Int {
@@ -77,10 +83,10 @@ class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel
     }
 
     private fun getMovies(query: String, numPage: Int) {
-        val completQuery: String = "$query?api_key=5451f06f86322e090841b4c2ebab2b7d&page=$numPage"
+        val completeQuery: String = "$query?api_key=5451f06f86322e090841b4c2ebab2b7d&page=$numPage"
         CoroutineScope(Dispatchers.IO).launch {
             val call: Response<MediaResponse> =
-                TMDbApiManager().getRetrofit().create(TMDbService::class.java).getMovies("$completQuery")
+                TMDbApiManager().getRetrofit().create(TMDbService::class.java).getMovies("$completeQuery")
             val mediaResponse: MediaResponse? = call.body()
             activity?.runOnUiThread(Runnable {
                 if (call.isSuccessful) {
@@ -122,6 +128,7 @@ class HomeFragment : HomeAdapter.ItemOnClickListener, BaseFragment<HomeViewModel
     override fun onItemClick(media: Media) {
         val bundle: Bundle = Bundle()
         bundle.putParcelable("media", media)
+        bundle.putString("uid", uid)
         val fragment: MovieFragment = MovieFragment()
         fragment.arguments = bundle
         navigator.navigate(fragment, false, fragment.LOG_TAG, container = R.id.fragmentContainerHome)

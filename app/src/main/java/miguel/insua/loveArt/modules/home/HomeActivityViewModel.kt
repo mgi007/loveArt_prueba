@@ -15,25 +15,15 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class HomeViewModel(app: Application) : BaseViewModel(app) {
+class HomeActivityViewModel(app: Application) : BaseViewModel(app) {
 
     init {
         (app as? App)?.component?.inject(this)
     }
 
-    lateinit var adapter: HomeAdapter
 
-    val list: MutableList<Media> = mutableListOf<Media>()
+    lateinit var uid: String
 
     var fragmentState: FragmentState = FragmentState.HOME
-
-    var uid: String? = null
-
-    lateinit var movie: Movie
-
-    fun refreshData() {
-        adapter.setListData(list)
-        adapter.notifyDataSetChanged()
-    }
 
 }
